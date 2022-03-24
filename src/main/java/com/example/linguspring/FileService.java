@@ -1,5 +1,6 @@
 package com.example.linguspring;
 
+import com.example.linguspring.config.AppConfiguration;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedWriter;
@@ -12,17 +13,21 @@ import java.util.stream.Collectors;
 
 @Service
 public class FileService {
-    private final String filename = "data.csv";
+    private final AppConfiguration config;
+
+    public FileService(AppConfiguration config) {
+        this.config = config;
+    }
 
     List<Entry> readAllFile() throws IOException {
-        return Files.readAllLines(Paths.get(filename))
+        return Files.readAllLines(Paths.get(config.getFilename()))
                 .stream()
                 .map(CsvConverter::convert)
                 .collect(Collectors.toList());
     }
 
     void saveEntries(List<Entry> entries) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(config.getFilename()));
         for (Entry entry : entries) {
             writer.write(entry.toString());
             writer.newLine();
