@@ -2,7 +2,7 @@ package com.example.linguspring;
 
 public class Entry {
     private final String original;
-    private String translation;
+    private final String translation;
 
     public Entry(String original, String translation) {
         this.original = original;

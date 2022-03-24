@@ -1,7 +1,6 @@
 package com.example.linguspring;
 
 import com.example.linguspring.consoleWriter.ConsoleOutputWriter;
-import com.example.linguspring.consoleWriter.TextFormatter;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
@@ -75,7 +74,7 @@ public class LinguController {
                 text.print("Błędna odpowiedź - " + entry.getTranslation());
             }
         }
-        text.print("Twój wynik: " + correct + "/" + testSize);
+        text.print(String.format("Twój wynik: %d/%d\n", correct, testSize));
     }
 
     private void addEntry() {
