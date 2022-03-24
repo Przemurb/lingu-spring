@@ -1,5 +1,7 @@
 package com.example.linguspring;
 
+import com.example.linguspring.consoleWriter.ConsoleOutputWriter;
+import com.example.linguspring.consoleWriter.TextFormatter;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
@@ -17,15 +19,17 @@ public class LinguController {
     private final EntryRepository entryRepository;
     private final FileService fileService;
     private final Scanner scanner;
+    private final ConsoleOutputWriter text;
 
-    public LinguController(EntryRepository entryRepository, FileService fileService, Scanner scanner) {
+    public LinguController(EntryRepository entryRepository, FileService fileService, Scanner scanner, ConsoleOutputWriter text) {
         this.entryRepository = entryRepository;
         this.fileService = fileService;
         this.scanner = scanner;
+        this.text = text;
     }
 
     void mainLoop() {
-        System.out.println("LINGU - program do nauki słówek");
+        text.print("LINGU - program do nauki słówek");
         int option = UNDEFINED;
         while (option != EXIT) {
             printMenu();
@@ -39,45 +43,45 @@ public class LinguController {
             case ADD -> addEntry();
             case TEST -> test();
             case EXIT -> exit();
-            default -> System.out.println("Nie ma takiej opcji wyboru");
+            default -> text.print("Nie ma takiej opcji wyboru");
         }
     }
 
     private void exit() {
         try {
             fileService.saveEntries(entryRepository.getAll());
-            System.out.println("Zapisano stan aplikacji");
+            text.print("Zapisano stan aplikacji");
         } catch (IOException e) {
-            System.out.println("Nie udało sie zapisać zmian!");
+            text.print("Nie udało sie zapisać zmian!");
         }
-        System.out.println("Bye! Bye!");
+        text.print("Bye! Bye!");
     }
 
     private void test() {
         if(entryRepository.isEmpty()) {
-            System.out.println("Baza jest pusta. Dodaj przynajmniej jedno wyrażenie!");
+            text.print("Baza jest pusta. Dodaj przynajmniej jedno wyrażenie!");
             return;
         }
         final int testSize = entryRepository.size() > 10 ? 10 : entryRepository.size();
         Set<Entry> randomEntries = entryRepository.getRandomEntry(testSize);
         int correct = 0;
         for (Entry entry : randomEntries) {
-            System.out.printf("Podaj tłumaczenia dla: %s \n", entry.getOriginal());
+            text.print("Podaj tłumaczenia dla: " + entry.getOriginal());
             String translation = scanner.nextLine();
             if(translation.equals(entry.getTranslation())) {
                 correct++;
-                System.out.println("Odpowiedź poprawna");
+                text.print("Odpowiedź poprawna");
             } else {
-                System.out.println("Błędna odpowiedź - " + entry.getTranslation());
+                text.print("Błędna odpowiedź - " + entry.getTranslation());
             }
         }
-        System.out.printf("Twój wynik: %d/%d\n", correct, testSize);
+        text.print("Twój wynik: " + correct + "/" + testSize);
     }
 
     private void addEntry() {
-        System.out.println("Podaj oryginalne słowo lub frazę:");
+        text.print("Podaj oryginalne słowo lub frazę:");
         String original = scanner.nextLine();
-        System.out.println("Podaj tłumaczenie:");
+        text.print("Podaj tłumaczenie:");
         String translated = scanner.nextLine();
         Entry entry = new Entry(original, translated);
         entryRepository.add(entry);
@@ -101,9 +105,9 @@ public class LinguController {
     }
 
     private void printMenu() {
-        System.out.println("Wybierz opcję:");
-        System.out.println("0 - Dodaj frazę");
-        System.out.println("1 - Test");
-        System.out.println("2 - Koniec programu");
+        text.print("Wybierz opcję:");
+        text.print("0 - Dodaj frazę");
+        text.print("1 - Test");
+        text.print("2 - Koniec programu");
     }
 }
