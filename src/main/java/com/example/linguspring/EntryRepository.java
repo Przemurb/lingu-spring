@@ -1,15 +1,14 @@
 package com.example.linguspring;
 
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-@Service
+@Repository
 public class EntryRepository {
-    private FileService fileService;
-    private Random random;
+    private final Random random;
 
     private List<Entry> entries;
 

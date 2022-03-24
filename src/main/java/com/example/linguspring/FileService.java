@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class FileService {
-
     private final String filename = "data.csv";
 
     List<Entry> readAllFile() throws IOException {

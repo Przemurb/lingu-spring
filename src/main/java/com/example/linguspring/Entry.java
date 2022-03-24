@@ -13,17 +13,9 @@ public class Entry {
         return original;
     }
 
-//    public void setOriginal(String original) {
-//        this.original = original;
-//    }
-
     public String getTranslation() {
         return translation;
     }
-
-//    public void setTranslation(String translation) {
-//        this.translation = translation;
-//    }
 
     @Override
     public String toString() {

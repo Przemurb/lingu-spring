@@ -1,7 +1,6 @@
 package com.example.linguspring;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.InputMismatchException;
@@ -47,7 +46,7 @@ public class LinguController {
     private void exit() {
         try {
             fileService.saveEntries(entryRepository.getAll());
-            System.out.println("zapisano stan aplikacji");
+            System.out.println("Zapisano stan aplikacji");
         } catch (IOException e) {
             System.out.println("Nie udało sie zapisać zmian!");
         }

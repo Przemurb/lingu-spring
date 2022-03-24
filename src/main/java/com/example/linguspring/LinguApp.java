@@ -10,7 +10,6 @@ import java.util.Scanner;
 
 @SpringBootApplication
 public class LinguApp {
-//    private final String filename = "data.csv";
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(LinguApp.class);
